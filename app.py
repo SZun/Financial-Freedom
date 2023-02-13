@@ -44,4 +44,6 @@ if st.button("Submit"):
         secondary_card_debt
     )
 
-    calculator.generate_reccommendation()
+    reccomendation = calculator.generate_reccommendation()
+    
+    st.write(reccomendation)

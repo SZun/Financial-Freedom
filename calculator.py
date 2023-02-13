@@ -15,5 +15,4 @@ class Calculator:
     secondary_card_interest_rate: float
 
     def generate_reccommendation(self):
-        print("To be completed")
-        pass
+        return "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
