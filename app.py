@@ -30,21 +30,36 @@ st.write("##### Secondary Card")
 secondary_card_interest_rate = st.text_input("Secondary Interest Rate")
 secondary_card_debt = st.text_input("Total Secondary Debt")
 
+
+
+
+
+def reccomend(calculator):
+        reccomendation = calculator.generate_reccommendation()
+    
+        st.write("## Your Reccomendation")
+        st.write(reccomendation)
+
+
+
+
+
 if st.button("Submit"):
-    calculator = Calculator(
-        match_percentage_401k,
-        stocks_401k,
-        bonds_401k,
-        expected_ira_return,
-        stocks_ira,
-        bonds_ira,
-        primary_card_interest_rate,
-        primary_card_debt,
-        secondary_card_interest_rate,
-        secondary_card_debt
+    try:
+        calculator = Calculator(
+        float(match_percentage_401k),
+        float(stocks_401k),
+        float(bonds_401k),
+        float(expected_ira_return),
+        float(stocks_ira),
+        float(bonds_ira),
+        float(primary_card_interest_rate),
+        float(primary_card_debt),
+        float(secondary_card_interest_rate),
+        float(secondary_card_debt)
     )
 
-    reccomendation = calculator.generate_reccommendation()
-    
-    st.write("## Your Reccomendation")
-    st.write(reccomendation)
+        reccomend(calculator)
+    except:
+        st.error('Invalid Input', icon="🚨")
+
