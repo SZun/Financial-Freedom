@@ -1,7 +1,7 @@
 import streamlit as st
 from calculator import Calculator
 
-st.write("# TBD")
+st.write("# Next Dollar")
 
 st.write("## Your Financials")
 
@@ -46,4 +46,5 @@ if st.button("Submit"):
 
     reccomendation = calculator.generate_reccommendation()
     
+    st.write("## Your Reccomendation")
     st.write(reccomendation)
