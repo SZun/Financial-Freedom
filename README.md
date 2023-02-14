@@ -18,11 +18,12 @@ $ conda --verison
 Output: conda 22.9.0
 ```
 
-### Cloning Repo & Installing Dependencies
+### Cloning Repo, Installing Dependencies & Running Application
 ```
 $ git clone git@github.com:SZun/Next-Dollar.git
 $ cd Next-Dollar
 $ sh install.sh
+$ streamlit run app.py
 ```
 
 ## Built With
