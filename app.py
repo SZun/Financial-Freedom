@@ -51,4 +51,3 @@ with st.form("Your Financials"):
             st.write(calculator.generate_reccommendation())
         except:
             st.error('Invalid Input', icon="🚨")
-
