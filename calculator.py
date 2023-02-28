@@ -15,7 +15,7 @@ class Calculator:
     secondary_card_interest_rate: float
 
     def get_projected_returns(self):
-        return []
+        return ["test"]
 
     def generate_reccommendation(self):
         return "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
