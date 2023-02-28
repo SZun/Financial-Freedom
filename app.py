@@ -1,27 +1,31 @@
 import streamlit as st
+from projection import Projector
 from calculator import Calculator
+
+def get_reccomendation():
+    return "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
 
 st.write("# Financial Freedom")
 
 with st.form("Your Financials"):
     st.write("## Your Financials")
 
+    st.write("### Personal Information")
+    age = st.text_input("Age")
+
+    st.write("### Income/Savings")
+    yearly_income = st.text_input("Yearly Income")
+    yearly_savings_rate = st.text_input("Yearly Savings Rate %")
+
     st.write("### 401k")
+    current_contribution_401k = st.text_input("Current Contribution %")
     match_percentage_401k = st.text_input("Employer Match %")
     st.write("#### Portfolio Mix")
-    st.write("##### Stocks")
-    stocks_401k = st.text_input("401k Stock %")
-    st.write("##### Bonds")
-    bonds_401k = st.text_input("401k Bonds %")
-
+    portfolio_mix_401k = st.selectbox("401k Stocks/Bonds", ["20/80","40/60","60/40","80/20","100/0"])
 
     st.write("### IRA")
-    expected_ira_return = st.text_input("Expected Yearly Return")
     st.write("#### Portfolio Mix")
-    st.write("##### Stocks")
-    stocks_ira = st.text_input("IRA Stock %")
-    st.write("##### Bonds")
-    bonds_ira = st.text_input("IRA Bonds %")
+    portfolio_mix_ira = st.selectbox("IRA Stocks/Bonds", ["20/80","40/60","60/40","80/20","100/0"])
 
     st.write("### Credit Cards")
     st.write("##### Primary Card")
@@ -35,19 +39,31 @@ with st.form("Your Financials"):
 
         try:
             calculator = Calculator(
+            int(age),
+            float(yearly_income),
+            float(yearly_savings_rate),
+            float(current_contribution_401k),
             float(match_percentage_401k),
-            float(stocks_401k),
-            float(bonds_401k),
-            float(expected_ira_return),
-            float(stocks_ira),
-            float(bonds_ira),
+            portfolio_mix_401k,
+            portfolio_mix_ira,
             float(primary_card_interest_rate),
             float(primary_card_debt),
             float(secondary_card_interest_rate),
             float(secondary_card_debt)
-        )
+            )
+
+            projected_returns = calculator.get_projected_returns()
+
+            projector = Projector(
+                float(primary_card_interest_rate),
+                float(primary_card_debt),
+                float(secondary_card_interest_rate),
+                float(secondary_card_debt),
+                projected_returns
+            )
 
             st.write("## Your Reccomendation")
-            st.write(calculator.generate_reccommendation())
+            st.write(get_reccomendation())
         except:
             st.error('Invalid Input', icon="🚨")
+

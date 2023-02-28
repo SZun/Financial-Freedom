@@ -4,6 +4,10 @@ This product advices users on how to allocate their money, taking into account c
 
 ## [Presentation Video (COMING SOON)](https://youtu.be/COMING_SOON)
 
+## The app in use
+
+Insert GIF here...
+
 ## Getting Started
 ### Prerequisites
 
@@ -30,7 +34,7 @@ $ streamlit run app.py
 
 ## Visualizations
 
-Visualizations here...
+Insert visualizations here...
 
 ## Built With
 - [![Python 3.7.13](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)]([https://www.python.org/downloads/release/python-3713/)
