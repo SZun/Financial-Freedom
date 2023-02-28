@@ -1,7 +1,7 @@
 import streamlit as st
 from calculator import Calculator
 
-st.write("# Next Dollar")
+st.write("# Financial Freedom")
 
 with st.form("Your Financials"):
     st.write("## Your Financials")

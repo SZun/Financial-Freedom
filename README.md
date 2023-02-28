@@ -1,4 +1,4 @@
-# Next Dollar
+# Financial Freedom
 
 Project description here...
 
@@ -22,8 +22,8 @@ Ouput: pip 22.2.2 from /Users/{#Username}/opt/anaconda3/lib/python3.9/site-packa
 
 ### Cloning Repo, Installing Dependencies & Running Application
 ```
-$ git clone git@github.com:SZun/Next-Dollar.git
-$ cd Next-Dollar
+$ git clone git@github.com:SZun/Financial-Freedom.git
+$ cd Financial-Freedom
 $ sh install.sh
 $ streamlit run app.py
 ```
