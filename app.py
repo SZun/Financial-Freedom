@@ -10,9 +10,12 @@ st.write("# Financial Freedom")
 with st.form("Your Financials"):
     st.write("## Your Financials")
 
+    st.write("### Personal Information")
+    age = st.text_input("Age")
+
     st.write("### Income/Savings")
     yearly_income = st.text_input("Yearly Income")
-    yearly_savings = st.text_input("Yearly Savings")
+    yearly_savings_rate = st.text_input("Yearly Savings Rate %")
 
     st.write("### 401k")
     current_contribution_401k = st.text_input("Current Contribution %")
@@ -36,8 +39,9 @@ with st.form("Your Financials"):
 
         try:
             calculator = Calculator(
+            int(age),
             float(yearly_income),
-            float(yearly_savings),
+            float(yearly_savings_rate),
             float(current_contribution_401k),
             float(match_percentage_401k),
             portfolio_mix_401k,
