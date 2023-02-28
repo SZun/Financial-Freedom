@@ -1,5 +1,9 @@
 import streamlit as st
+from projection import Projector
 from calculator import Calculator
+
+def get_reccomendation():
+    return "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
 
 st.write("# Financial Freedom")
 
@@ -44,7 +48,18 @@ with st.form("Your Financials"):
             float(secondary_card_debt)
             )
 
+            projected_returns = calculator.get_projected_returns()
+
+            projector = Projector(
+                float(primary_card_interest_rate),
+                float(primary_card_debt),
+                float(secondary_card_interest_rate),
+                float(secondary_card_debt),
+                projected_returns
+            )
+
             st.write("## Your Reccomendation")
-            st.write(calculator.generate_reccommendation())
+            st.write(get_reccomendation())
         except:
             st.error('Invalid Input', icon="🚨")
+
