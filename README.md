@@ -1,6 +1,6 @@
 # Financial Freedom
 
-Project description here...
+This product advices users on how to allocate their money, taking into account credit cards, HSAs, 401-K and IRAs, and it provides a projection of the finances of a user.
 
 ## [Presentation Video (COMING SOON)](https://youtu.be/COMING_SOON)
 
@@ -27,6 +27,10 @@ $ cd Financial-Freedom
 $ sh install.sh
 $ streamlit run app.py
 ```
+
+## Visualizations
+
+Visualizations here...
 
 ## Built With
 - [![Python 3.7.13](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)]([https://www.python.org/downloads/release/python-3713/)
