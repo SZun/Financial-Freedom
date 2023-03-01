@@ -15,7 +15,7 @@ with st.form("Your Financials"):
 
     st.write("### Income/Savings")
     yearly_income = st.text_input("Yearly Income")
-    yearly_savings_rate = st.text_input("Yearly Savings Rate %")
+    yearly_savings = st.text_input("Yearly Savings")
 
     st.write("### 401k")
     current_contribution_401k = st.text_input("Current Contribution %")
@@ -41,7 +41,7 @@ with st.form("Your Financials"):
             calculator = Calculator(
             int(age),
             float(yearly_income),
-            float(yearly_savings_rate),
+            float(yearly_savings),
             float(current_contribution_401k),
             float(match_percentage_401k),
             portfolio_mix_401k,
