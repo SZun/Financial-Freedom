@@ -16,11 +16,11 @@ class Calculator:
     secondary_card_debt: float
     cc_interest_rate = 0
     expected_portfolio_returns =  {
-                                    "20_80": {"Equity": 20, "Fixed Income": 80, "ROI %":7}, 
-                                    "40_60": {"Equity": 40, "Fixed Income": 60, "ROI %":8},
-                                    "60_40": {"Equity": 60, "Fixed Income": 40, "ROI %":9},
-                                    "80_20": {"Equity": 80, "Fixed Income": 20, "ROI %":10},
-                                    "100_0": {"Equity": 100, "Fixed Income": 0, "ROI %":11}
+                                    "20_80": {"Equity": 20, "Fixed Income": 80, "ROI %":5.95}, 
+                                    "40_60": {"Equity": 40, "Fixed Income": 60, "ROI %":6.57},
+                                    "60_40": {"Equity": 60, "Fixed Income": 40, "ROI %":7.64},
+                                    "80_20": {"Equity": 80, "Fixed Income": 20, "ROI %":8.72},
+                                    "100_0": {"Equity": 100, "Fixed Income": 0, "ROI %":9.79}
                                      }
     
     def init(self):
