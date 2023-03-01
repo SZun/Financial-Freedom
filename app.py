@@ -18,14 +18,12 @@ with st.form("Your Financials"):
     yearly_savings = st.text_input("Yearly Savings")
 
     st.write("### 401k")
+    balance_401k = st.text_input("401k Balance")
     current_contribution_401k = st.text_input("Current Contribution %")
     match_percentage_401k = st.text_input("Employer Match %")
-    st.write("#### Portfolio Mix")
-    portfolio_mix_401k = st.selectbox("401k Stocks/Bonds", ["20/80","40/60","60/40","80/20","100/0"])
 
-    st.write("### IRA")
-    st.write("#### Portfolio Mix")
-    portfolio_mix_ira = st.selectbox("IRA Stocks/Bonds", ["20/80","40/60","60/40","80/20","100/0"])
+    st.write("### Portfolio Mix")
+    portfolio_mix = st.selectbox("Stocks/Bonds", ["20/80","40/60","60/40","80/20","100/0"])
 
     st.write("### Credit Cards")
     st.write("##### Primary Card")
@@ -42,10 +40,10 @@ with st.form("Your Financials"):
             int(age),
             float(yearly_income),
             float(yearly_savings),
+            float(balance_401k),
             float(current_contribution_401k),
             float(match_percentage_401k),
-            portfolio_mix_401k,
-            portfolio_mix_ira,
+            portfolio_mix,
             float(primary_card_interest_rate),
             float(primary_card_debt),
             float(secondary_card_interest_rate),
