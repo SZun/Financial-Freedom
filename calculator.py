@@ -16,17 +16,14 @@ class Calculator:
     secondary_card_debt: float
     cc_interest_rate = 0
     cc_debt = 0
-    expected_portfolio_returns =  {
-                                    "20/80": {"Equity": 20, "Fixed Income": 80, "ROI %":5.95}, 
-                                    "40/60": {"Equity": 40, "Fixed Income": 60, "ROI %":6.57},
-                                    "60/40": {"Equity": 60, "Fixed Income": 40, "ROI %":7.64},
-                                    "80/20": {"Equity": 80, "Fixed Income": 20, "ROI %":8.72},
-                                    "100/0": {"Equity": 100, "Fixed Income": 0, "ROI %":9.79}
-                                     }
+    expected_portfolio_returns =    {
+                                        "20/80": {"Equity": 20, "Fixed Income": 80, "ROI %":5.95}, 
+                                        "40/60": {"Equity": 40, "Fixed Income": 60, "ROI %":6.57},
+                                        "60/40": {"Equity": 60, "Fixed Income": 40, "ROI %":7.64},
+                                        "80/20": {"Equity": 80, "Fixed Income": 20, "ROI %":8.72},
+                                        "100/0": {"Equity": 100, "Fixed Income": 0, "ROI %":9.79}
+                                    }
     money_allocation = {"Debt" : 0, "Invest" : 0}
-    
-    def init(self):
-        tax_amount = self.get_tax_amount()
 
    
     def get_tax_amount(self):
@@ -79,7 +76,7 @@ class Calculator:
         return self.cc_debt - self.money_allocation["Debt"]
     
 
-    def get_advised_portfolio_recommendation (self):
+    def get_portfolio_key (self):
         keys = list(self.expected_portfolio_returns.keys())
         index = 0 
 
@@ -91,16 +88,13 @@ class Calculator:
             index = 2
         elif self.age < 60:
             index = 1
-        else :
-            index = 0
 
-        key = keys[index]
-        return [self.expected_portfolio_returns[key], key]
+        return keys[index]
 
 
     def get_portfolio_roi(self, is_advised=False):
         total_401k_balance = self.balance_401k + self.money_allocation["Invest"]
-        mix = self.get_advised_portfolio_recommendation()[1] if is_advised else self.portfolio_mix
+        mix = self.get_portfolio_key() if is_advised else self.portfolio_mix
         roi = 1 + (self.expected_portfolio_returns[mix]["ROI %"] / 100)
         
         return roi * total_401k_balance
