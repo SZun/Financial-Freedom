@@ -55,25 +55,28 @@ class Calculator:
         if investing_capital >= employer_match:
             self.money_allocation["Invest"] += employer_match 
  
-    def get_tax_amount(self):
-        if self.yearly_income < 11_001:
-            return 0.1 * self.yearly_income 
-        elif self.yearly_income >= 11_001 and self.yearly_income < 44_726:
-            return (0.1 * 11_000) + (0.12 * (self.yearly_income - 11_000))
-        elif self.yearly_income >= 44_726 and self.yearly_income < 95_376:
-            return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * (self.yearly_income - 44_725))
-        elif self.yearly_income >= 95_376 and self.yearly_income < 182_101:
-            return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * (self.yearly_income - 95_375))
-        elif self.yearly_income >= 182_101 and self.yearly_income < 231_251:
-            return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * (self.yearly_income - 182_100))
-        elif self.yearly_income >= 231_251 and self.yearly_income < 578_126:
-            return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * 49_150) + (0.35 * (self.yearly_income - 231_250))
+    def get_tax_amount(self, is_advised =False):
+        income_after_contribution = self.yearly_income - self.money_allocation["Invest"] if is_advised else (self.current_contribution_401k/100) * self.yearly_income
+        if income_after_contribution < 11_001:
+            return 0.1 * income_after_contribution.yearly_income 
+        elif income_after_contribution >= 11_001 and income_after_contribution < 44_726:
+            return (0.1 * 11_000) + (0.12 * (income_after_contribution - 11_000))
+        elif income_after_contribution >= 44_726 and income_after_contribution < 95_376:
+            return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * (income_after_contribution - 44_725))
+        elif income_after_contribution >= 95_376 and income_after_contribution < 182_101:
+            return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * (income_after_contribution - 95_375))
+        elif income_after_contribution >= 182_101 and income_after_contribution < 231_251:
+            return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * (income_after_contribution - 182_100))
+        elif income_after_contribution >= 231_251 and income_after_contribution < 578_126:
+            return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * 49_150) + (0.35 * (income_after_contribution - 231_250))
         
-        return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * 49_150) + (0.35 * 346_875) + (0.37 * (self.yearly_income - 578_125))
+        return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * 49_150) + (0.35 * 346_875) + (0.37 * (income_after_contribution - 578_125))
 
-    def get_effective_tax_rate(self):
-        return round((self.get_tax_amount() / self.yearly_income) * 100,2)
-    
+
+
+    def get_effective_tax_rate(self, is_advised=False):
+        return (self.get_tax_amount(is_advised) / (self.yearly_income))  *100
+
     def get_employer_match(self):
         return self.yearly_income * (self.match_percentage_401k / 100)
 
@@ -86,7 +89,7 @@ class Calculator:
         return round(self.cc_debt - self.money_allocation["Debt"],2)
     
     def get_advised_monthly_cost_of_debt(self):
-        return (self.get_final_debt()*(self.cc_interest_rate/100))/12
+        return round((self.get_final_debt()*(self.cc_interest_rate/100))/12,2)
     
     def get_portfolio_key (self):
         keys = list(self.expected_portfolio_returns.keys())
@@ -104,17 +107,18 @@ class Calculator:
         return keys[index]
 
 
-    def get_portfolio_roi(self, is_advised=False):
-        total_401k_balance = self.balance_401k + self.money_allocation["Invest"]
+    def get_portfolio_ending_balance(self, is_advised=False):
+        additional_contribution = self.money_allocation["Invest"] if is_advised else (self.current_contribution_401k/100) * self.yearly_income
+        total_401k_balance = self.balance_401k + additional_contribution  
         mix = self.get_portfolio_key() if is_advised else self.portfolio_mix
         roi = 1 + (self.expected_portfolio_returns[mix]["ROI %"] / 100)
         
         return round(roi * total_401k_balance,2)
     
     def get_simplified_net_worth(self):
-        unadvised_roi = self.get_portfolio_roi() - self.get_final_debt()
-        advised_roi = self.get_portfolio_roi(True) - self.get_final_debt()
-        return [unadvised_roi,advised_roi]
+        unadvised_ending_balnace = self.get_portfolio_ending_balance() - self.get_final_debt()
+        advised_ending_balnace = self.get_portfolio_ending_balance(True) - self.get_final_debt()
+        return [unadvised_ending_balnace,advised_ending_balnace]
 
 
     def get_projected_returns(self):
