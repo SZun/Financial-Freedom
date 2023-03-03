@@ -25,9 +25,30 @@ class Calculator:
                                     }
     money_allocation = {"Debt" : 0, "Invest" : 0}
 
-   
-    def get_tax_amount(self):
+    def init(self):
+        self.set_total_cc_interest_rate()
+        self.set_cc_debt()
+        self.set_money_allocation()
 
+    def set_total_cc_interest_rate(self):
+        self.cc_interest_rate = (self.primary_card_interest_rate + self.secondary_card_interest_rate)/2
+
+    def set_cc_debt (self):
+        self.cc_debt = self.primary_card_debt + self.secondary_card_debt
+
+    def set_money_allocation(self):
+        if self.cc_interest_rate > self.expected_portfolio_returns[self.portfolio_mix]["ROI %"]:
+            if self.cc_debt > self.yearly_savings:
+                self.money_allocation["Debt"] = self.yearly_savings
+            else :
+                self.money_allocation["Debt"] = self.cc_debt
+                self.money_allocation["Invest"] = self.yearly_savings - self.cc_debt
+
+        else:
+            self.money_allocation["Invest"] = self.yearly_savings
+        return self.money_allocation
+ 
+    def get_tax_amount(self):
         if self.yearly_income < 11_001 :
             return 0.1 * self.yearly_income 
         elif self.yearly_income >= 11_001 and self.yearly_income < 44_726 :
@@ -44,38 +65,21 @@ class Calculator:
             return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * 49_150) + (0.35 * 346_875) + (0.37 * (self.yearly_income - 578_125))
 
     def get_effective_tax_rate(self):
-        return (self.get_tax_amount() / self.yearly_income) * 100
+        print("Here")
+        return round((self.get_tax_amount() / self.yearly_income) * 100,2)
 
 
-
-
-    def get_monthly_cost_of_debt(self):
-        return ((self.primary_card_interest_rate*self.primary_card_debt) + (self.secondary_card_interest_rate*self.secondary_card_debt)) / 12 
-        
-    
-    def set_total_cc_interest_rate(self):
-        self.cc_interest_rate = (self.primary_card_interest_rate + self.secondary_card_interest_rate)/2
-
-    def set_cc_debt (self):
-        self.cc_debt = self.primary_card_debt + self.secondary_card_debt
-
-
-    def set_money_allocation(self):
-        if self.cc_interest_rate > self.portfolio_recommendation["ROI %"]:
-            if self.cc_debt > self.yearly_savings:
-                self.money_allocation["Debt"] = self.yearly_savings
-            else :
-                self.money_allocation["Debt"] = self.cc_debt
-                self.money_allocation["Invest"] = self.yearly_savings - self.cc_debt
-
-        else:
-            self.money_allocation["Invest"] = self.yearly_savings
-        return self.money_allocation
+    def get_starting_monthly_cost_of_debt(self):
+        primary_card_debt = (self.primary_card_interest_rate/100)*self.primary_card_debt
+        secondary_card_debt = (self.secondary_card_interest_rate/100)*self.secondary_card_debt
+        return round(primary_card_debt + secondary_card_debt / 12,2) 
  
     def get_final_debt(self):
-        return self.cc_debt - self.money_allocation["Debt"]
+        return round(self.cc_debt - self.money_allocation["Debt"],2)
     
-
+    def get_advised_monthly_cost_of_debt(self):
+        return (self.get_final_debt()*(self.cc_interest_rate/100))/12
+    
     def get_portfolio_key (self):
         keys = list(self.expected_portfolio_returns.keys())
         index = 0 
@@ -97,7 +101,12 @@ class Calculator:
         mix = self.get_portfolio_key() if is_advised else self.portfolio_mix
         roi = 1 + (self.expected_portfolio_returns[mix]["ROI %"] / 100)
         
-        return roi * total_401k_balance
+        return round(roi * total_401k_balance,2)
+    
+    def get_simplified_net_worth(self):
+        unadvised_roi = self.get_portfolio_roi() - self.get_final_debt()
+        advised_roi = self.get_portfolio_roi(True) - self.get_final_debt()
+        return [unadvised_roi,advised_roi]
 
 
     def get_projected_returns(self):

@@ -37,31 +37,46 @@ with st.form("Your Financials"):
 
         try:
             calculator = Calculator(
-            int(age),
-            float(yearly_income),
-            float(yearly_savings),
-            float(balance_401k),
-            float(current_contribution_401k),
-            float(match_percentage_401k),
-            portfolio_mix,
-            float(primary_card_interest_rate),
-            float(primary_card_debt),
-            float(secondary_card_interest_rate),
-            float(secondary_card_debt)
-            )
-
-            projected_returns = calculator.get_projected_returns()
-
-            projector = Projector(
+                int(age),
+                float(yearly_income),
+                float(yearly_savings),
+                float(balance_401k),
+                float(current_contribution_401k),
+                float(match_percentage_401k),
+                portfolio_mix,
                 float(primary_card_interest_rate),
                 float(primary_card_debt),
                 float(secondary_card_interest_rate),
-                float(secondary_card_debt),
-                projected_returns
+                float(secondary_card_debt)
             )
 
-            st.write("## Your Reccomendation")
-            st.write(get_reccomendation())
+            # projected_returns = calculator.get_projected_returns()
+
+            # projector = Projector(
+            #     float(primary_card_interest_rate),
+            #     float(primary_card_debt),
+            #     float(secondary_card_interest_rate),
+            #     float(secondary_card_debt),
+            #     projected_returns
+            # )
+
+            calculator.init()
+            
+            st.write("## Your Current Financials")
+            
+            st.write(f"Effective Tax Rate: {calculator.get_effective_tax_rate()}%")
+            st.write(f"Monthly Cost of Debt: ${calculator.get_starting_monthly_cost_of_debt()}")
+
+            unadvised_roi,advised_roi = calculator.get_simplified_net_worth()
+            
+            st.write("### Without Advice")
+            st.write(f"Yearly ROI: ${unadvised_roi}")
+            st.write(f"Current Debt: ${calculator.cc_debt}")
+            st.write("### With Advice")
+            st.write(f"Yearly ROI: ${advised_roi}")
+            st.write(f"Final Debt: ${calculator.get_final_debt()}")
+            st.write(f"Monthly Cost of Debt: ${calculator.get_advised_monthly_cost_of_debt()}")
+
         except:
             st.error('Invalid Input', icon="🚨")
 
