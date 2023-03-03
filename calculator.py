@@ -23,12 +23,13 @@ class Calculator:
                                         "80/20": {"Equity": 80, "Fixed Income": 20, "ROI %":8.72},
                                         "100/0": {"Equity": 100, "Fixed Income": 0, "ROI %":9.79}
                                     }
-    money_allocation = {"Debt" : 0, "Invest" : 0}
+    money_allocation = {"Debt": 0, "Invest": 0}
 
     def init(self):
         self.set_total_cc_interest_rate()
         self.set_cc_debt()
         self.set_money_allocation()
+        self.set_total_investing_capital()
 
     def set_total_cc_interest_rate(self):
         self.cc_interest_rate = (self.primary_card_interest_rate + self.secondary_card_interest_rate)/2
@@ -40,18 +41,24 @@ class Calculator:
         if self.cc_interest_rate > self.expected_portfolio_returns[self.portfolio_mix]["ROI %"]:
             if self.cc_debt > self.yearly_savings:
                 self.money_allocation["Debt"] = self.yearly_savings
-            else :
+            else:
                 self.money_allocation["Debt"] = self.cc_debt
                 self.money_allocation["Invest"] = self.yearly_savings - self.cc_debt
 
         else:
             self.money_allocation["Invest"] = self.yearly_savings
         return self.money_allocation
+    
+    def set_total_investing_capital(self):
+        employer_match = self.get_employer_match()
+        investing_capital = self.money_allocation["Invest"]
+        if investing_capital >= employer_match:
+            self.money_allocation["Invest"] += employer_match 
  
     def get_tax_amount(self):
-        if self.yearly_income < 11_001 :
+        if self.yearly_income < 11_001:
             return 0.1 * self.yearly_income 
-        elif self.yearly_income >= 11_001 and self.yearly_income < 44_726 :
+        elif self.yearly_income >= 11_001 and self.yearly_income < 44_726:
             return (0.1 * 11_000) + (0.12 * (self.yearly_income - 11_000))
         elif self.yearly_income >= 44_726 and self.yearly_income < 95_376:
             return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * (self.yearly_income - 44_725))
@@ -61,13 +68,14 @@ class Calculator:
             return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * (self.yearly_income - 182_100))
         elif self.yearly_income >= 231_251 and self.yearly_income < 578_126:
             return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * 49_150) + (0.35 * (self.yearly_income - 231_250))
-        else :
-            return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * 49_150) + (0.35 * 346_875) + (0.37 * (self.yearly_income - 578_125))
+        
+        return (0.1 * 11_000) + (0.12 * 33_725) + (0.22 * 50_650) + (0.24 * 86_725) + (0.32 * 49_150) + (0.35 * 346_875) + (0.37 * (self.yearly_income - 578_125))
 
     def get_effective_tax_rate(self):
-        print("Here")
         return round((self.get_tax_amount() / self.yearly_income) * 100,2)
-
+    
+    def get_employer_match(self):
+        return self.yearly_income * (self.match_percentage_401k / 100)
 
     def get_starting_monthly_cost_of_debt(self):
         primary_card_debt = (self.primary_card_interest_rate/100)*self.primary_card_debt
