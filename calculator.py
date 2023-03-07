@@ -57,7 +57,7 @@ class Calculator:
  
     def get_tax_amount(self, is_advised =False):
         income_after_contribution = self.yearly_income - self.money_allocation["Invest"] if is_advised else (self.current_contribution_401k/100) * self.yearly_income
-        
+
         if income_after_contribution < 11_001:
             return 0.1 * income_after_contribution 
         elif income_after_contribution >= 11_001 and income_after_contribution < 44_726:
