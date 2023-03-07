@@ -85,11 +85,11 @@ class Calculator:
         secondary_card_debt = (self.secondary_card_interest_rate/100)*self.secondary_card_debt
         return round(primary_card_debt + secondary_card_debt / 12,2) 
  
-    def get_final_debt(self):
-        return round(self.cc_debt - self.money_allocation["Debt"],2)
+    def get_final_debt(self, is_advised=False):
+        return round(self.cc_debt - self.money_allocation["Debt"] if is_advised else 0,2)
     
-    def get_advised_monthly_cost_of_debt(self):
-        return round((self.get_final_debt()*(self.cc_interest_rate/100))/12,2)
+    def get_monthly_cost_of_debt(self, is_advised=False):
+        return round((self.get_final_debt(is_advised)*(self.cc_interest_rate/100))/12,2)
     
     def get_portfolio_key (self):
         keys = list(self.expected_portfolio_returns.keys())

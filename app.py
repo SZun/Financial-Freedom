@@ -19,7 +19,7 @@ with st.form("Your Financials"):
     yearly_savings = st.text_input("Yearly Savings ($)")
 
     st.write("### 401k")
-    balance_401k = st.text_input("401k Balance")
+    balance_401k = st.text_input("401k Balance ($)")
     current_contribution_401k = st.text_input("Current Contribution (%)")
     match_percentage_401k = st.text_input("Employer Match (%)")
 
@@ -76,6 +76,7 @@ with st.form("Your Financials"):
                 st.write(f"Yearly Ending Balance: ${unadvised_ending_balnace}")
                 st.write(f"Current Debt: ${calculator.cc_debt}")
                 st.write(f"Effective Tax Rate: {calculator.get_effective_tax_rate()}%")
+                st.write(f"Monthly Cost of Debt: ${calculator.get_monthly_cost_of_debt()}")
 
                 st.write("### With Advice")
                 debt,invest = calculator.money_allocation.values()
@@ -94,7 +95,7 @@ with st.form("Your Financials"):
                 st.write(f"Yearly Ending Balance: ${advised_ending_balnace}")
                 st.write(f"Final Debt: ${calculator.get_final_debt()}")
                 st.write(f"Effective Tax Rate: {calculator.get_effective_tax_rate(True)}%")
-                st.write(f"Monthly Cost of Debt: ${calculator.get_advised_monthly_cost_of_debt()}")
+                st.write(f"Monthly Cost of Debt: ${calculator.get_monthly_cost_of_debt(True)}")
 
             except:
                 st.error('Invalid Input', icon="🚨")
