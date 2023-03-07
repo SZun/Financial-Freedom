@@ -16,14 +16,14 @@ class Calculator:
     secondary_card_debt: float
     cc_interest_rate = 0
     cc_debt = 0
-    expected_portfolio_returns =    {
-                                        "20/80": {"Equity": 20, "Fixed Income": 80, "ROI %":5.95}, 
-                                        "40/60": {"Equity": 40, "Fixed Income": 60, "ROI %":6.57},
-                                        "60/40": {"Equity": 60, "Fixed Income": 40, "ROI %":7.64},
-                                        "80/20": {"Equity": 80, "Fixed Income": 20, "ROI %":8.72},
-                                        "100/0": {"Equity": 100, "Fixed Income": 0, "ROI %":9.79}
-                                    }
     money_allocation = {"Debt": 0, "Invest": 0}
+    expected_portfolio_returns =    {
+                                        "20/80": {"Equity": 20, "Fixed Income": 80, "ROI %": 5.95}, 
+                                        "40/60": {"Equity": 40, "Fixed Income": 60, "ROI %": 6.57},
+                                        "60/40": {"Equity": 60, "Fixed Income": 40, "ROI %": 7.64},
+                                        "80/20": {"Equity": 80, "Fixed Income": 20, "ROI %": 8.72},
+                                        "100/0": {"Equity": 100, "Fixed Income": 0, "ROI %": 9.79}
+                                    }
 
     def initialize(self):
         self.set_total_cc_interest_rate()
@@ -57,6 +57,7 @@ class Calculator:
  
     def get_tax_amount(self, is_advised =False):
         income_after_contribution = self.yearly_income - self.money_allocation["Invest"] if is_advised else (self.current_contribution_401k/100) * self.yearly_income
+        
         if income_after_contribution < 11_001:
             return 0.1 * income_after_contribution 
         elif income_after_contribution >= 11_001 and income_after_contribution < 44_726:
