@@ -5,3 +5,4 @@ conda install -c conda-forge streamlit
 conda install -c anaconda pandas
 conda install -c anaconda numpy
 pip install plotnine
+pip install Pillow

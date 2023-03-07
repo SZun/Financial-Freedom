@@ -1,14 +1,15 @@
 from dataclasses import dataclass
 from calculator import Calculator
 import pandas as pd
-from plotnine import ggplot
+from plotnine import ggplot, geom_line, labs, aes
 import numpy as np
-import datetime
+from pathlib import Path
+import os
 
 @dataclass
 class Projector:
 
-    calc= Calculator(25, 200000, 20000, 100000, 5, 5, "20/80", 15, 5000, 15, 5000)
+    calc: Calculator
     debt = 0
     portfolio_balance = 0
     df = pd.DataFrame(
@@ -16,12 +17,16 @@ class Projector:
             "Simplified Net Worth": np.nan,
             "Year-End Debt": np.nan,
             "Investing Capital": np.nan,
-            "Ending 401k Balance": np.nan
-        }, index=range(1,6))
+            "Ending 401k Balance": np.nan,
+            "Year":range(1,6)
+        }
+    )
 
     def init(self):
+        self.calc.init() #tbd
         self.debt = self.calc.get_final_debt(True) 
         self.portfolio_balance = self.calc.get_portfolio_ending_balance(True)
+        self.get_data()
 
 
     def get_data(self):
@@ -40,14 +45,14 @@ class Projector:
         
 
     def get_next_final_debt(self):
-        cc_debt = self.calc.cc_debt
-        if cc_debt < 0:
+        investment_capital = self.calc.money_allocation["Invest"]
+        self.calc.cc_debt = self.debt 
+        self.debt =  self.calc.get_final_debt(True)
+        if self.debt < 0:
+            temp_debt = self.debt*-1
             self.debt = 0
-            return [self.debt, (cc_debt * -1) + self.calc.money_allocation["Invest"]]
-        else:
-            self.calc.cc_debt = self.debt 
-            self.debt =  self.calc.get_final_debt(True)
-            return [self.debt, 0]
+            return [0, temp_debt+investment_capital]
+        return [self.debt, self.calc.money_allocation["Invest"]]
 
     def get_next_portfolio_ending_balance(self):
         self.calc.balance_401k = self.portfolio_balance
@@ -57,9 +62,24 @@ class Projector:
     def get_next_simplified_net_worth(self):
         return self.calc.get_simplified_net_worth()[1]
 
-    def check(self):
-        self.calc.init()
-        self.init()
-        self.get_data()
-        print(self.df)
+    def get_save_line_plot(self, y_value):
+        plot = (
+            ggplot(self.df, aes(x='Year', y=y_value))
+            + geom_line() # line plot
+            + labs(x='Year', y=y_value, title=f"Projected {y_value} Over The Next 5 Years")
+        )
+
+        filename = y_value.replace(" ", "_") + ".png"
+        path = Path(f"./assets/images/plots/{filename}")
+        if path.is_file():
+            os.remove(path)
+        plot.save(path)
+        return path
+    
+    def get_image_paths(self):
+        paths = []
+        print(self.df.columns.values[:-1])
+        for i in self.df.columns.values[:-1]:
+            paths.append(self.get_save_line_plot(i))
+        return paths
 

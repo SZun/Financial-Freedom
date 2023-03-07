@@ -1,6 +1,8 @@
 import streamlit as st
 from projection import Projector
 from calculator import Calculator
+from pathlib import Path
+from PIL import Image
 
 def get_formated_portfolio_mix(mix):
     mix = mix.split("/")
@@ -35,10 +37,7 @@ with st.form("Your Financials"):
     secondary_card_debt = st.text_input("Total Secondary Debt ($)")
 
     if st.form_submit_button("Submit"):
-
-        
         if float(yearly_savings) > ((float(current_contribution_401k)/100) * float(yearly_income)):    
-
             try:
                 calculator = Calculator(
                     int(age),
@@ -54,18 +53,8 @@ with st.form("Your Financials"):
                     float(secondary_card_debt)
                 )
 
-                # projected_returns = calculator.get_projected_returns()
-
-                # projector = Projector(
-                #     float(primary_card_interest_rate),
-                #     float(primary_card_debt),
-                #     float(secondary_card_interest_rate),
-                #     float(secondary_card_debt),
-                #     projected_returns
-                # )
-
                 calculator.init()
-                
+                            
                 st.write("## Your Current Financials")
                 
                 st.write(f"Monthly Cost of Debt: ${calculator.get_starting_monthly_cost_of_debt()}")
@@ -96,6 +85,12 @@ with st.form("Your Financials"):
                 st.write(f"Final Debt: ${calculator.get_final_debt()}")
                 st.write(f"Effective Tax Rate: {calculator.get_effective_tax_rate(True)}%")
                 st.write(f"Monthly Cost of Debt: ${calculator.get_monthly_cost_of_debt(True)}")
+
+                projector = Projector(calculator)
+                projector.init()
+                for image_path in projector.get_image_paths():
+                    plot_image = Image.open(Path(image_path))
+                    st.image(plot_image)
 
             except:
                 st.error('Invalid Input', icon="🚨")
