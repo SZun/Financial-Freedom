@@ -58,7 +58,7 @@ class Projector:
     def get_next_portfolio_ending_balance(self):
         self.calc.balance_401k = self.portfolio_balance
         self.portfolio_balance = self.calc.get_portfolio_ending_balance(True)
-        
+
         return self.portfolio_balance
     
     def get_next_simplified_net_worth(self):
@@ -71,8 +71,7 @@ class Projector:
             + labs(x='Year', y=y_value, title=f"Projected {y_value} Over The Next 5 Years")
         )
 
-        filename = y_value.replace(" ", "_") + ".png"
-        path = Path(f"./assets/images/plots/{filename}")
+        path = Path(f"./assets/images/plots/{y_value.replace(' ', '_')}.png")
 
         if path.is_file():
             os.remove(path)
