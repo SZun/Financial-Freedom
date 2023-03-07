@@ -53,7 +53,7 @@ with st.form("Your Financials"):
                     float(secondary_card_debt)
                 )
 
-                calculator.init()
+                calculator.initialize()
                             
                 st.write("## Your Current Financials")
                 
@@ -87,7 +87,7 @@ with st.form("Your Financials"):
                 st.write(f"Monthly Cost of Debt: ${calculator.get_monthly_cost_of_debt(True)}")
 
                 projector = Projector(calculator)
-                projector.init()
+                projector.initialize()
                 for image_path in projector.get_image_paths():
                     plot_image = Image.open(Path(image_path))
                     st.image(plot_image)

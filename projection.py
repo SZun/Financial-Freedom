@@ -22,7 +22,7 @@ class Projector:
         }
     )
 
-    def init(self):
+    def initialize(self):
         self.debt = self.calc.get_final_debt(True) 
         self.portfolio_balance = self.calc.get_portfolio_ending_balance(True)
         self.get_data()

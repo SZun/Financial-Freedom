@@ -25,7 +25,7 @@ class Calculator:
                                     }
     money_allocation = {"Debt": 0, "Invest": 0}
 
-    def init(self):
+    def initialize(self):
         self.set_total_cc_interest_rate()
         self.set_cc_debt()
         self.set_money_allocation()
