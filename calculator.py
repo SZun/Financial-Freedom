@@ -119,10 +119,3 @@ class Calculator:
         unadvised_ending_balnace = self.get_portfolio_ending_balance() - self.get_final_debt()
         advised_ending_balnace = self.get_portfolio_ending_balance(True) - self.get_final_debt()
         return [unadvised_ending_balnace,advised_ending_balnace]
-
-
-    def get_projected_returns(self):
-        return ["test"]
-
-    def generate_reccommendation(self):
-        return "Lorem ipsum dolor sit amet, consectetur adipiscing elit"

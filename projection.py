@@ -1,10 +1,10 @@
+import pandas as pd
+import numpy as np
+import os
 from dataclasses import dataclass
 from calculator import Calculator
-import pandas as pd
-from plotnine import ggplot, geom_line, labs, aes
-import numpy as np
 from pathlib import Path
-import os
+from plotnine import ggplot, geom_line, labs, aes
 
 @dataclass
 class Projector:
@@ -18,7 +18,7 @@ class Projector:
             "Year-End Debt": np.nan,
             "Investing Capital": np.nan,
             "Ending 401k Balance": np.nan,
-            "Year":range(1,6)
+            "Year": range(1,6)
         }
     )
 
@@ -47,15 +47,18 @@ class Projector:
         investment_capital = self.calc.money_allocation["Invest"]
         self.calc.cc_debt = self.debt 
         self.debt =  self.calc.get_final_debt(True)
+
         if self.debt < 0:
             temp_debt = self.debt*-1
             self.debt = 0
             return [0, temp_debt+investment_capital]
+
         return [self.debt, investment_capital]
 
     def get_next_portfolio_ending_balance(self):
         self.calc.balance_401k = self.portfolio_balance
         self.portfolio_balance = self.calc.get_portfolio_ending_balance(True)
+        
         return self.portfolio_balance
     
     def get_next_simplified_net_worth(self):
@@ -70,15 +73,19 @@ class Projector:
 
         filename = y_value.replace(" ", "_") + ".png"
         path = Path(f"./assets/images/plots/{filename}")
+
         if path.is_file():
             os.remove(path)
+
         plot.save(path)
+
         return path
     
     def get_image_paths(self):
         paths = []
-        print(self.df.columns.values[:-1])
+
         for i in self.df.columns.values[:-1]:
             paths.append(self.get_save_line_plot(i))
+
         return paths
 

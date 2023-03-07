@@ -81,6 +81,8 @@ with st.form("Your Financials"):
                     
                     st.write(f"- Currently you have a portfolio mix of {get_formated_portfolio_mix(portfolio_mix)} and we reccomend you move to a portfolio mix of {get_formated_portfolio_mix(calculator.get_portfolio_key())}")
 
+                st.write("### Projections With Advice")
+
                 st.write(f"Yearly Ending Balance: ${advised_ending_balnace}")
                 st.write(f"Final Debt: ${calculator.get_final_debt()}")
                 st.write(f"Effective Tax Rate: {calculator.get_effective_tax_rate(True)}%")
