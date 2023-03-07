@@ -12,7 +12,7 @@ class Projector:
     calc: Calculator
     debt = 0
     portfolio_balance = 0
-    df = pd.DataFrame(
+    projection_data = pd.DataFrame(
         {
             "Simplified Net Worth": np.nan,
             "Year-End Debt": np.nan,
@@ -30,17 +30,15 @@ class Projector:
 
     def get_data(self):
         row = 0
-        self.df.iloc[row,0] = self.calc.get_simplified_net_worth()[1]
-        self.df.iloc[row,1] = self.debt
-        self.df.iloc[row,2] = self.calc.money_allocation["Invest"]
-        self.df.iloc[row,3] = self.portfolio_balance
+        self.projection_data.iloc[row,0] = self.calc.get_simplified_net_worth()[1]
+        self.projection_data.iloc[row,1] = self.debt
+        self.projection_data.iloc[row,2] = self.calc.money_allocation["Invest"]
+        self.projection_data.iloc[row,3] = self.portfolio_balance
         
-        for i in range(4):
-            row += 1
-            self.df.iloc[row, 1] = self.get_next_final_debt()[0]
-            self.df.iloc[row, 2] = self.get_next_final_debt()[1]
-            self.df.iloc[row, 3] = self.get_next_portfolio_ending_balance()
-            self.df.iloc[row, 0] = self.get_next_simplified_net_worth()
+        for i in range(1,5):
+            self.projection_data.iloc[i, 1:3] = self.get_next_final_debt()
+            self.projection_data.iloc[i, 3] = self.get_next_portfolio_ending_balance()
+            self.projection_data.iloc[i, 0] = self.get_next_simplified_net_worth()
         
 
     def get_next_final_debt(self):
@@ -66,7 +64,7 @@ class Projector:
 
     def get_save_line_plot(self, y_value):
         plot = (
-            ggplot(self.df, aes(x='Year', y=y_value))
+            ggplot(self.projection_data, aes(x='Year', y=y_value))
             + geom_line()
             + labs(x='Year', y=y_value, title=f"Projected {y_value} Over The Next 5 Years")
         )
@@ -83,7 +81,7 @@ class Projector:
     def get_image_paths(self):
         paths = []
 
-        for i in self.df.columns.values[:-1]:
+        for i in self.projection_data.columns.values[:-1]:
             paths.append(self.get_save_line_plot(i))
 
         return paths
