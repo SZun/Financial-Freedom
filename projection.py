@@ -23,7 +23,6 @@ class Projector:
     )
 
     def init(self):
-        self.calc.init() #tbd
         self.debt = self.calc.get_final_debt(True) 
         self.portfolio_balance = self.calc.get_portfolio_ending_balance(True)
         self.get_data()
@@ -52,7 +51,7 @@ class Projector:
             temp_debt = self.debt*-1
             self.debt = 0
             return [0, temp_debt+investment_capital]
-        return [self.debt, self.calc.money_allocation["Invest"]]
+        return [self.debt, investment_capital]
 
     def get_next_portfolio_ending_balance(self):
         self.calc.balance_401k = self.portfolio_balance
@@ -65,7 +64,7 @@ class Projector:
     def get_save_line_plot(self, y_value):
         plot = (
             ggplot(self.df, aes(x='Year', y=y_value))
-            + geom_line() # line plot
+            + geom_line()
             + labs(x='Year', y=y_value, title=f"Projected {y_value} Over The Next 5 Years")
         )
 
