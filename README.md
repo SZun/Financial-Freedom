@@ -18,7 +18,7 @@ A few important details about the inner workings of the financial calculator:
 
 ## The App in Use
 
-![Financial Calculator Demo](.\assets\gifs\financial_freedom_demo_recording.gif)
+![Financial Calculator Demo](./assets/gifs/financial_freedom_demo_recording.gif)
 
 ## Getting Started
 ### Prerequisites
@@ -48,8 +48,8 @@ $ streamlit run app.py
 
 <hr>
 
-![Simplified Net Worth Plot](.\assets\images\plots\Simplified_Net_Worth.png) | ![year End Debt Plot](.\assets\images\plots\Year-End_Debt.png)
-![Investing Capital Plot](.\assets\images\plots\Investing_Capital.png) | ![Ending 401 K Balance Plot](.\assets\images\plots\Ending_401k_Balance.png)
+![Simplified Net Worth Plot](./assets/images/plots/Simplified_Net_Worth.png) | ![year End Debt Plot](./assets/images/plots/Year-End_Debt.png)
+![Investing Capital Plot](./assets/images/plots/Investing_Capital.png) | ![Ending 401 K Balance Plot](./assets/images/plots/Ending_401k_Balance.png)
 
 
 ## Built With
