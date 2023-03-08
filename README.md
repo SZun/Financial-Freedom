@@ -44,6 +44,12 @@ $ sh install.sh
 $ streamlit run app.py
 ```
 
+## Results
+
+<hr>
+
+![Example Results](./assets/images/example_results.png)
+
 ## Projections
 
 <hr>
