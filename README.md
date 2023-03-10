@@ -12,7 +12,7 @@ A few important details about the inner workings of the financial calculator:
 - The calculator takes into account the interest cost of outstanding debt when determining how capital should be allocated.   
 <hr>
 
-## [Presentation Video (COMING SOON)](https://youtu.be/COMING_SOON)
+## [Presentation Video](https://youtu.be/oAwtShDSVzI)
 
 <hr>
 
